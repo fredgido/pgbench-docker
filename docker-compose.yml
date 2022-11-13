@@ -22,7 +22,11 @@ services:
       "-c", "log_connections=off",
       "-c", "log_disconnections=off",
       "-c", "log_statement_stats=off",
+      # resources
+      "-c", "shared_buffers=32MB"
     ]
+  volumes:
+  - .:/var/lib/postgresql/data
 
   wait-for-db:
     image: $DOCKER_IMAGE
@@ -69,7 +73,7 @@ services:
       "-T", $PGBENCH_DURATION,
       "-b", $PGBENCH_SCRIPT,
       "-P", "1", # show progress every 1 sec
-      "--report-latencies",
+      "--report-per-command",
       "pgbench" # database name
     ]
 
